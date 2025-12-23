@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Abrir archivo</title>
+</head>
+<body>
+<h2>Abrir archivo local</h2>
+<a href="file:///C:\Users\eliza\OneDrive\Desktop\Carpeta-Cosas lindas">
+    Abrir página 💖
+</a>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carta Secreta</title>
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  margin:0;
+  background:#c2c5c5;
+  overflow-x:hidden;
+}
+.hearts{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+}
+.heart{
+  position:absolute;
+  animation:fall linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(100vh);opacity:0;}
+}
+.screen{
+  display:none;
+  height:100vh;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+  z-index:2;
+  position:relative;
+}
+.active{display:flex;}
+.keypad{
+  display:grid;
+  grid-template-columns:repeat(3,60px);
+  gap:10px;
+}
+.key{
+  padding:15px;
+  font-size:20px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+.input-display{
+  font-size:24px;
+  letter-spacing:8px;
+  margin:15px;
+}
+.notepad{
+  background:#f9f9f9;
+  padding:20px;
+  border-radius:20px;
+  width:90%;
+  max-width:500px;
+  box-shadow:0 8px 15px rgba(0,0,0,.2);
+  font-family:"Comic Sans MS", cursive;
+}
+.back-btn{
+  margin-top:15px;
+  padding:10px 20px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+img{
+  max-width:250px;
+  border-radius:15px;
+}
+</style>
+</head>
+
+<body>
+<div class="hearts"></div>
+
+<div id="passwordScreen" class="screen active">
+<img src="1.jpeg" alt="imagen">
+<h2>🔒 Ingresa la contraseña</h2>
+<div class="input-display" id="inputDisplay">••••</div>
+
+<div class="keypad">
+<button class="key" onclick="enterDigit('1')">1</button>
+<button class="key" onclick="enterDigit('2')">2</button>
+<button class="key" onclick="enterDigit('3')">3</button>
+<button class="key" onclick="enterDigit('4')">4</button>
+<button class="key" onclick="enterDigit('5')">5</button>
+<button class="key" onclick="enterDigit('6')">6</button>
+<button class="key" onclick="enterDigit('7')">7</button>
+<button class="key" onclick="enterDigit('8')">8</button>
+<button class="key" onclick="enterDigit('9')">9</button>
+<button class="key" onclick="checkPassword()">✔</button>
+<button class="key" onclick="enterDigit('0')">0</button>
+<button class="key" onclick="deleteLast()">⌫</button>
+</div>
+</div>
+
+<div id="notepadScreen" class="screen">
+<div class="notepad">
+<h3>📅 24 de Diciembre 2025</h3>
+<h4>💌 Mi Querida Sofi 💌</h4>
+
+<p>Quiero que sepas lo feliz que soy por tenerte en mi vida. Muchisimas gracias por siempre estar conmigo apesar de todas las peleas.</p>
+<p>A tu lado aprendí lo que es el amor verdadero, ese que se demuestra con acciones, con palabras sinceras y con esos pequeños detalles que hacen la diferencia. Gracias por estar siempre conmigo, por darme tu tiempo, tu cariño y tu comprensión..</p>
+<p>No se como agradecerte que siempre me apoyaste en todo momento. Eres mi alegría diaria y la razón de tantas sonrisas. Te amo profundamente. ♡♡</p>
+<p>Gracias por todo mi niña Sofi ♡</p>
+
+<button class="back-btn" onclick="goBack()">Inicio</button>
+</div>
+</div>
+
+<script>
+const correctPassword="0111";
+let input="";
+
+function enterDigit(d){
+ if(input.length<4){
+  input+=d;
+  update();
+ }
+}
+function deleteLast(){
+ input=input.slice(0,-1);
+ update();
+}
+function update(){
+ document.getElementById("inputDisplay").textContent=input.padEnd(4,"•");
+}
+function checkPassword(){
+ if(input===correctPassword){
+  passwordScreen.classList.remove("active");
+  notepadScreen.classList.add("active");
+ }else{
+  alert("Contraseña incorrecta");
+  input="";
+  update();
+ }
+}
+function goBack(){
+ notepadScreen.classList.remove("active");
+ passwordScreen.classList.add("active");
+ input="";
+ update();
+}
+setInterval(()=>{
+ const h=document.createElement("div");
+ h.className="heart";
+ h.textContent="❤️🌸";
+ h.style.left=Math.random()*100+"vw";
+ h.style.fontSize=(Math.random()*20+10)+"px";
+ h.style.animationDuration=(Math.random()*5+5)+"s";
+ document.querySelector(".hearts").appendChild(h);
+ setTimeout(()=>h.remove(),8000);
+},500);
+</script>
+</body>
+</html>
